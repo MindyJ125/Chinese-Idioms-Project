@@ -1,0 +1,10 @@
+Sun Mar 1
+- Tokenized by character raw.in and raw.out files, stored in tokenized_raw.in and tokenized_raw.out.
+- Used difflib to extract idioms from tokenized files, excluded non four-char chunks 
+  - In
+    - Saved 1970 standard idioms to data/processed/idioms_in.csv
+    - Saved 5278 non four-char items to data/procesed/excluded_in.csv
+  - Out
+    - Saved 1827 standard itioms to data/processed/idioms_out.csv
+    - Saved 3599 non four-char items to data/processed/excluded_out.csv
+- 
