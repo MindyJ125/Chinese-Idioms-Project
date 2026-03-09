@@ -7,4 +7,10 @@ Sun Mar 1
   - Out
     - Saved 1827 standard itioms to data/processed/idioms_out.csv
     - Saved 3599 non four-char items to data/processed/excluded_out.csv
-- 
+
+
+Mon Mar 9
+- Idioms successfully extracted: 4783
+ - Rows excluded (Idiom not found): 153
+ - Rows excluded (Alignment/Paraphrase error): 40
+
