@@ -40,23 +40,29 @@ def extract_idioms_refined(chengyu_file, csv_file, output_file, not_found_file, 
                 count_not_found += 1
                 continue
 
-            # 2. Extract surrounding context (1 char before, 1 char after)
-            before_char = src_raw[start_idx - 1] if start_idx > 0 else None
-            after_char = src_raw[start_idx + 4] if start_idx + 4 < len(src_raw) else None
+            window_size = 3
+            before_context = src_raw[start_idx - window_size : start_idx]
+            after_context = src_raw[start_idx + 4 : start_idx + 4 + window_size]
 
-            # 3. Locate context in the destination string
+            # Locate context in the destination string
             dst_raw = row['dst'].replace(' ', '')
             
             try:
-                b_idx = dst_raw.find(before_char) if before_char else -1
-                # Search for 'after_char' starting AFTER the found b_idx
-                a_idx = dst_raw.find(after_char, b_idx + 1) if after_char else len(dst_raw)
+                # Find the 'before' block
+                b_idx = dst_raw.find(before_context)
+                
+                # Find the 'after' block, searching from the end of b_idx
+                if b_idx == -1: 
+                    b_idx = dst_raw.find(before_context[-2:]) # Fallback to 2-char
+                
+                a_idx = dst_raw.find(after_context, b_idx + 1)
                 
                 # Boundary logic
-                s_point = b_idx + 1 if b_idx != -1 else 0
+                s_point = b_idx + len(before_context) if b_idx != -1 else 0
                 e_point = a_idx if a_idx != -1 else len(dst_raw)
                 
                 translated_segment = dst_raw[s_point:e_point].strip()
+                
                 
                 # Check if extraction is valid and not just the whole sentence
                 if len(translated_segment) > 0 and len(translated_segment) < len(dst_raw):
